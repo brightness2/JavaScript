@@ -1,0 +1,48 @@
+<!--
+ * @Author: Brightness
+ * @Date: 2021-06-16 11:04:43
+ * @LastEditors: Brightness
+ * @LastEditTime: 2021-06-16 14:09:18
+ * @Description:  
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function ajax(url, fnSucc, fnFaild = null, method = 'GET', isAsync = true) {
+            if (window.XMLHttpRequest) {
+                var oAjax = new XMLHttpRequest();
+            } else {
+                var oAjax = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            oAjax.open(method, url, isAsync);
+            oAjax.send();
+
+            oAjax.onreadystatechange = function () {
+                if (oAjax.readyState == 4) {
+                    if (oAjax.status == 200) {
+                        fnSucc(oAjax.responseText);
+                    } else {
+                        fnFaild && fnFaild(oAjax.responseText);
+                    }
+                }
+            }
+        }
+
+        ajax('./data.json', function (rs) {
+            console.log(rs);
+        }, function (rs) {
+            console.log(rs);
+        })
+    </script>
+</body>
+
+</html>
