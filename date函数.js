@@ -219,3 +219,37 @@ export const zDate = (format, timestamp) => {
         return f[t]();
     });
 };
+
+export const  formatDate = (date,format)=>{
+    function _zero(num){
+        if(num<10){
+            return '0'+num
+        }
+        return num;
+    }
+    let obj={
+        'yyyy':date.getFullYear(),
+        'yy':date.getFullYear()%100,
+        'MM':_zero(date.getMonth()+1),
+        'M':date.getMonth()+1,
+        'dd':_zero(date.getDate()),
+        'd':date.getDate(),
+        'HH':_zero(date.getHours()),
+        'H':date.getHours(),
+        'hh':_zero(date.getHours()%12),
+        'h':date.getHours()%12,
+        'mm':_zero(date.getMinutes()),
+        'm':date.getMinutes(),
+        'ss':_zero(date.getSeconds()),
+        's':date.getSeconds(),
+        'w':function(){
+            arr = ['日', '一', '二', '三', '四', '五', '六'];
+            return arr[date.getDay()];
+        }()
+    }
+
+    for (const key in obj) {
+        format = format.replace(key,obj[key])
+    }
+    return format;
+}

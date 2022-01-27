@@ -1,0 +1,108 @@
+<!--
+ * @Author: Brightness
+ * @Date: 2022-01-07 17:18:00
+ * @LastEditors: Brightness
+ * @LastEditTime: 2022-01-07 17:20:35
+ * @Description:  
+ 本题考点：Object.defineProperty、get、set
+
+根据题目要求，对”person“对象数据进行拦截，在拦截中操作页面的渲染，核心步骤有：
+
+创建”Observe“函数，接收一个对象参数，首先判断该对象参数是否合法，之后通过遍历对象的所有属性进行拦截操作。尽管可以直接使用Object.defineProperty函数对”person“对象进行拦截，但是可以通过创建”Observe“函数来封装对某个对象的属性劫持功能，之后可以复用此函数。
+创建“defineReactive”函数，接收三个参数分别为该对象、对象属性、对象属性值。该函数内部使用Object.defineProperty函数对该对象的属性值进行拦截，且每当触发set时，调用”render“方法重新渲染视图
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <style>
+            ul {
+                list-style: none;
+            }
+        </style>
+        <ul id="one"></ul>
+        <ul id="two"></ul>
+
+        <script>
+            var ul1 = document.querySelector('#one');
+           
+            var person = { sex: '男', age: '25', name: '王大锤', height: 28, weight: 32 };
+            const _render = element => {
+                var str = `<li>姓名：<span>${person.name}</span></li>
+                           <li>性别：<span>${person.sex}</span></li>
+                           <li>年龄：<span>${person.age}</span></li>
+                           <li>身高：<span>${person.height}</span></li>
+                           <li>体重：<span>${person.weight}</span></li>`
+                element.innerHTML = str;
+            }
+            _render(ul1);
+
+            // 补全代码
+            //es5
+              function defineReactive(obj,key,value){
+                Object.defineProperty(obj,key,{
+                    get:function(){
+                        return value;
+                    },
+                    set:function(newValue){
+                        if(newValue !== value){
+                            value = newValue;
+                            _render(ul1)
+                        }
+                    }
+                })
+            }
+
+            function Observe(obj){
+                if(typeof obj !== 'object' || obj ==null){
+                    return obj
+                }
+
+                for (let key in obj) {
+                    defineReactive(obj,key,obj[key])
+                }
+            }
+            Observe(person)
+            //修改person 可以触发
+
+            /********************************/
+
+            //es6
+            var ul2 = document.querySelector('#two');
+            var person2 = { sex: '男', age: '25', name: '张三', height: 28, weight: 32 };
+            const _render2 = element => {
+                var str = `<li>姓名：<span>${person2.name}</span></li>
+                           <li>性别：<span>${person2.sex}</span></li>
+                           <li>年龄：<span>${person2.age}</span></li>
+                           <li>身高：<span>${person2.height}</span></li>
+                           <li>体重：<span>${person2.weight}</span></li>`
+                element.innerHTML = str;
+            }
+            _render2(ul2);
+
+            function defineReactive2(obj){
+               let proxy = new Proxy(obj,{
+                   set:function(target,key,newValue){
+                       if(target[key] !== newValue){
+                            target[key] = newValue;
+                            _render2(ul2)
+                       }
+                   }
+               });
+               return proxy;
+            }
+
+            function Observe2(obj){
+                if(typeof obj !== 'object' || obj ==null){
+                    return obj
+                }
+                return defineReactive2(obj)
+                
+            }
+           let person2Proxy = Observe2(person2);
+           //修改person2Proxy，可以触发person2修改，即使有属性在peron2中不存在，通过person2Proxy.id来定义也同样可以这样监听这个属性的变化哦~
+        </script>
+    </body>
+</html>

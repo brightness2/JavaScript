@@ -1,0 +1,90 @@
+<!--
+ * @Author: Brightness
+ * @Date: 2022-01-10 11:11:29
+ * @LastEditors: Brightness
+ * @LastEditTime: 2022-01-10 11:24:59
+ * @Description:  
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+
+        <script>
+            var vnode = {
+                tag: 'ul',
+                props: {
+                    class: 'list'
+                },
+                text: '',
+                children: [
+                    {
+                        tag: "li",
+                        props: {
+                            class: "item"
+                        },
+                        text: '',
+                        children: [
+                            {
+                                tag: undefined,
+                                props: {},
+                                text: '牛客网',
+                                children: []
+                            }
+                        ]
+                    },
+                    {
+                        tag: "li",
+                        props: {},
+                        text: '',
+                        children: [
+                            {
+                                tag: undefined,
+                                props: {},
+                                text: 'nowcoder',
+                                children: []
+                            }
+                        ]
+                    }
+                ]
+            }
+            /**
+             * 设置属性
+             */
+            function _setAttr(el,attrs){
+                for (const key in attrs) {
+                        vnode.el.setAttribute(key,attrs[key]);
+                }
+            }
+
+            /**
+             * 创建元素
+             */ 
+            const _createElm = vnode => {
+                // 补全代码
+                let {tag,props,children,text} = vnode;
+
+                if(typeof tag == 'string'){
+                    //创建元素
+                    vnode.el = document.createElement(tag);
+                    //设置属性
+                    _setAttr(vnode.el,props);
+                    //添加内容
+                    vnode.el.appendChild(document.createTextNode(text));
+                    //递归创建子元素并追加到当前元素
+                    children.forEach(child=>{
+                        vnode.el.appendChild(_createElm(child));
+                    });
+                }else{
+                    vnode.el = document.createTextNode(text);
+                }
+                return vnode.el;
+                
+            }
+           let html =  _createElm(vnode);
+           console.log(html);
+        </script>
+    </body>
+</html>

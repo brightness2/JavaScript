@@ -15,12 +15,45 @@
 </head>
 <body>
     <form action="" method="get">
-       jjj <input type="text" onEnter="test">
+        <input type="text" onEnter="test">
     </form>
     <script>
-       function test(){
-            alert('enter');
+        class PromiseM {
+            static PENDING = 'pending'
+            static FULFILLED = 'fulfilled'
+            static REJECTED  = 'rejected'
+            constructor (process) {
+                this.status = 'pending'
+                this.msg = ''
+                process(this.resolve.bind(this), this.reject.bind(this))
+                return this
+            }
+            resolve (val) {
+                this.status = PromiseM.FULFILLED
+                this.msg = val
+            }
+            reject (err) {
+                this.status = PromiseM.REJECTED
+                this.msg = err
+            }
+            then (fufilled, reject) {
+                if(this.status === PromiseM.FULFILLED) {
+                    fufilled(this.msg)
+                }
+                if(this.status === PromiseM.REJECTED) {
+                    reject(this.msg)
+                }
+            }
         }
+
+        let promise1 = new Promise(function(resolve,reject){
+setTimeout(function(){
+resolve('ok')
+},1000)
+})
+promise1.then(function success(val){
+console.log(val)
+})
     </script>
 </body>
 </html>
