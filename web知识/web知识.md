@@ -394,3 +394,77 @@ Virtual DOM 本质上就是在 JS 和 DOM 之间做了一个缓存。
 
 ## Vue的生命周期
 init --》 beforeCreate --》created --》 beforeMount --》 mounted --》 beforeUpdate --》 updated --》 beforeDestroy --》 destroyed
+
+
+## Generator函数
+
+1、分段执行，可以暂停
+2、可以控制阶段和每个阶段的返回值
+3、可以知道是否执行到结尾
+
+```
+function* g(){
+    var o = 1;
+    yield o++;
+    yield o++;
+}
+let gen = g();
+console.log(gen.next());// {value: 1, done: false}
+console.log(gen.next());// {value: 2, done: false}
+console.log(gen.next());// {value: undefined, done: true}
+```
+可以把异步操作写在yield语句里面，等到调用next方法时再往后执行。
+Generator函数的一个重要实际意义就是用来处理异步操作，改写回调函数。
+
+## async 函数
+异步编程的解决方案，promise，async，await
+```
+async function asyncFun(){
+    const rs1 = await new Promise(res=>{
+        setTimeout(()=>{
+            let data = 'ddfdd';
+            res(data);
+        })
+    })
+
+    console.log(rs1);
+}
+
+```
+
+
+## 跨域解决
+1、JSONP：JSON只支持get，因为script标签只能使用get请求；JSONP需要后端配合返回指定格式的数据。
+
+2、CORS：服务端设置Access-Control-Allow-Origin
+
+3、代理跨域：起一个代理服务器，实现数据的转发
+
+
+## ajax 请求
+```
+let xhr = new XMLHttpRequest();
+        xhr.open('get','url');
+        xhr.send();
+        xhr.onreadystatechange = function(){
+            if(xhr.readyState==4){
+                if(xhr.status == 200){
+                    console.log(xhr.responseText);
+                }
+            }
+        }
+```
+
+## fetch 使用
+```
+ let res = fetch('test.html')
+        res.then(rs=>{
+            if(rs.status == 200){
+                return rs.text();
+                //如果是json数据
+                // return rs.json();
+            }
+        }).then(data=>{
+            console.log(data);
+        })
+```
