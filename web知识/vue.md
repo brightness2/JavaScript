@@ -161,3 +161,8 @@ export default {
 # vue组件中的data能否以对象形式返回？为什么？
 不能，因为这样会造成对象共享，数据混乱；以函数返回这回new一个新的对象。
 
+# 平时有经常用到nextTick吗？谈谈你对nextTick的理解。
+vue执行完渲染后会执行this.$nextTick()里面的callback函数。
+
+# 存储到vuex里边的数据多长时间销毁，可以做长时间储存吗？
+重置时销毁，通过 localstorage 实现长时间存储。

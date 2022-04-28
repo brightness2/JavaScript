@@ -18,16 +18,155 @@
         <input type="text" onEnter="test">
     </form>
     <script>
-        let res = fetch('test.html')
-        res.then(rs=>{
-            if(rs.status == 200){
-                return rs.text();
-                //如果是json数据
-                // return rs.json();
-            }
-        }).then(data=>{
-            console.log(data);
-        })
+    //   let xhr = new XMLHttpRequest()
+    //   xhr.open('get','test.html')
+    //   xhr.send()
+    //   xhr.onreadystatechange = ()=>{
+    //       if(xhr.readyState == 4 && xhr.status == 200){
+    //           console.log(xhr.responseText);
+    //       }
+    //   }
+    /*********************************/
+    // fetch('test.html').then(obj=>{
+    //     if(obj.status == 200){
+    //         return obj.text()
+    //     }else{
+    //         throw new Error('请求失败')
+    //     }
+    // }).then(rs=>{
+    //     console.log(rs)
+    // }).catch(err=>{
+    //     console.info(err)
+    // })
+    /***************************/
+    // function fun(){
+    //     let num = 0;
+    //     return function run(){
+    //         return num++;
+    //     }
+    // }
+    // let f = fun();
+    // console.log(f());
+    // console.log(f());
+    /********************/
+    // function b(fn,time=200){
+    //     let timer=null;
+       
+    //    return function run(){
+    //         clearTimeout(timer)
+    //         timer = setTimeout(()=>{
+    //            fn.apply(this,arguments)
+    //         },time)
+    //     }
+    // }
+    // let f = b(()=>console.log(1));
+    // for (let i = 0; i < 10; i++) {
+    //     f();
+    // }
+    // setTimeout(()=>f(),2000)
+
+    /*********************************/
+
+    // class PP{
+    //     constructor(name){
+    //         this.name = name
+    //     }
+
+    //     say(){
+    //         console.log(this.name);
+    //     }
+    // }
+
+    // class CC extends PP{
+    //     constructor(name,age){
+    //         super(name)
+    //         this.age = age
+    //     }
+
+    //     getAge(){
+    //         console.log(this.age);
+    //     }
+    // }
+
+    // let cc = new CC('cc',15);
+    // cc.say()
+    // cc.getAge()
+
+
+    // function P(name){
+    //     this.name = name
+    // }
+    // P.prototype.say = function(){
+    //     console.log(this.name);
+    // }
+
+    // function C(name,age){
+    //     P.call(this,name)
+    //     this.age = age
+    // }
+    // C.prototype = Object.create(P.prototype);
+    // C.prototype.constructor = C;
+
+    // C.prototype.getAge = function () { console.log(this.age); }
+
+    // let c = new C('c',19);
+    // c.say()
+    // c.getAge()
+
+    /*********************************/
+//     var person = {
+//         name:'brightness',
+//         age:15
+//     }
+
+//     function reactive(obj,key,value){
+//         Object.defineProperty(obj,key,{
+//             get:function(){return value},
+//             set:function(newValue){
+//                 if(newValue !== value){
+//                     value = newValue
+//                     console.log(person);
+//                 }
+//             }
+//         })
+//     }
+
+//     function observe(obj){
+//         for (const key in obj) {
+//             reactive(obj,key,obj[key])
+//         }
+//     }
+
+//     observe(person)
+
+//     var person2 = {name:'kk'}
+//     function reactive2(obj){
+//         return new Proxy(obj,{
+//             set:function(target,key,newValue,receiver){
+//                 if(newValue != receiver){
+//                     target[key] = newValue
+//                 }
+//             }
+//         })
+//     }
+//    let person2Proxy = reactive2(person2)
+
+/***************************************/
+// function deepClone(obj){
+//     let newObj = Array.isArray(obj)?[]:{};
+    
+//     for (const key in obj) {
+//         newObj[key] = (typeof obj[key] == 'object')?deepClone(obj[key]):obj[key]
+//     }
+//     return newObj
+// }
+
+// let o = {
+//     name:'brightness',
+//     list:['1',1,{age:15}]
+// }
+
+// console.log(deepClone(o));
     </script>
 </body>
 </html>
