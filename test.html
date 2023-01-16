@@ -2,7 +2,7 @@
  * @Author: Brightness
  * @Date: 2021-06-16 08:42:06
  * @LastEditors: Brightness
- * @LastEditTime: 2022-05-19 09:27:23
+ * @LastEditTime: 2022-05-19 14:14:23
  * @Description:  
 -->
 <!DOCTYPE html>
@@ -176,7 +176,6 @@
         let arr = [
             ["红色", "黄色", "橙色"],
             ["微辣", "中辣"],
-            ["微辣", "中辣"]
 
         ];
         /**
@@ -213,8 +212,34 @@
         }
 
         let list = [];
+        let specList = [
+            {
+                name:'颜色',
+            },
+            {
+                name:'辣度',
+            }
+        ]
         recursionSub(list,arr.length,arr,0,-1);
-        console.log(list);
+        let res = list.reduce((prev,curr,currIndex,arr)=>{
+            let obj ={
+                goods_sn:'',
+                marketprice:'',
+                price:'',
+                stocks:0,
+                sales:0,
+            };
+            obj.sku_arr = curr;
+            obj.sku_attr =[];
+            for (const key in specList) {
+                obj.sku_attr.push(specList[key].name+':'+curr[key]) 
+            }
+            obj.sku_attr = obj.sku_attr.join(',');
+            arr[currIndex] = obj ;
+            return arr;
+        },[]);
+        
+        console.log(res);
     </script>
 </body>
 
